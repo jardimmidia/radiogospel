@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Rádio ADMOC Jardim</title>
+    <meta name="description" content="Web Rádio ADMOC Jardim - Transmissão ao vivo">
+    <meta name="theme-color" content="#000000">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-image: url('https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144853/R%C3%A1dio/radiojardimimagemdefundo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+            background-color: transparent;
+        }
+        
+        .logo {
+            max-height: 55px;
+        }
+        
+        .banner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .square-banner {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            background-color: #1a1a1a;
+        }
+        
+        .radio-info {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .radio-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #000;
+        }
+        
+        .radio-status {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 10px;
+        }
+        
+        .volume-icon {
+            width: 40px;
+            cursor: pointer;
+        }
+        
+        .volume-slider-container {
+            width: 60%;
+            position: relative;
+            height: 5px;
+            background: #ccc;
+            border-radius: 5px;
+        }
+        
+        .volume-progress {
+            position: absolute;
+            height: 100%;
+            background-color: #00e676;
+            border-radius: 5px;
+            top: 0;
+            left: 0;
+            width: 40%;
+        }
+        
+        .volume-handle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #000;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 40%;
+            cursor: pointer;
+        }
+        
+        .play-button-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .play-button {
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .playing-status {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 10px;
+        }
+        
+        .social-footer {
+            background-color: #000;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .social-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .whatsapp-banner {
+            width: 90%;
+            max-width: 500px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .whatsapp-banner:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742145596/R%C3%A1dio/radiojardimlogoadmocjardimpreta.png" alt="Logo Assembleia de Deus Jardim" class="logo">
+    </div>
+    
+    <div class="banner-container">
+        <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144853/R%C3%A1dio/radiojardimbannercentral.png" alt="ADMOC Jardim" class="square-banner">
+    </div>
+    
+    <div class="radio-info">
+        <div class="radio-title">Web Rádio ADMOC Jardim</div>
+        <div class="radio-status">AO VIVO</div>
+    </div>
+    
+    <div class="audio-controls">
+        <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144855/R%C3%A1dio/radiojardimiconvolumemenos.png" alt="Volume -" class="volume-icon" id="volume-down">
+        
+        <div class="volume-slider-container">
+            <div class="volume-progress" id="volume-progress"></div>
+            <div class="volume-handle" id="volume-handle"></div>
+        </div>
+        
+        <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144856/R%C3%A1dio/radiojardimiconvolumemais.png" alt="Volume +" class="volume-icon" id="volume-up">
+    </div>
+    
+    <div class="play-button-container">
+        <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144855/R%C3%A1dio/radiojardimbotaoplayer.png" alt="Play" class="play-button" id="play-button">
+    </div>
+    
+    <div class="playing-status" id="playing-status">TOCANDO!</div>
+    
+    <div class="social-footer">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/admocjardim/" target="_blank" class="social-icon">
+                <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144852/R%C3%A1dio/radiojardimlogoinstagram.png" alt="Instagram">
+            </a>
+            <a href="https://www.facebook.com/admocjardim1" target="_blank" class="social-icon">
+                <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144851/R%C3%A1dio/radiojardimlogofacebook.png" alt="Facebook">
+            </a>
+            <a href="https://www.tiktok.com/@admocjardim?_t=ZM-8ujkbaqihe9&_r=1" target="_blank" class="social-icon">
+                <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144853/R%C3%A1dio/radiojardimlogotiktok.png" alt="TikTok">
+            </a>
+            <a href="https://www.youtube.com/@admocjardim" target="_blank" class="social-icon">
+                <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144853/R%C3%A1dio/radiojardimlogoyoutube.png" alt="YouTube">
+            </a>
+        </div>
+        
+        <a href="https://api.whatsapp.com/send/?phone=5538984186963&text=Ol%C3%A1%2C+paz+do+Senhor%21+Gostaria+de+saber+mais+sobre+a+igreja+ADMOC+Jardim%21&type=phone_number&app_absent=0" target="_blank">
+            <img src="https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144853/R%C3%A1dio/radiojardimbannerwhatsapp.png" alt="WhatsApp" class="whatsapp-banner">
+        </a>
+    </div>
+    
+    <audio id="radio-player" src="https://a8.asurahosting.com:7500/radio.mp3"></audio>
+    
+    <script>
+        const radioPlayer = document.getElementById('radio-player');
+        const playButton = document.getElementById('play-button');
+        const volumeProgress = document.getElementById('volume-progress');
+        const volumeHandle = document.getElementById('volume-handle');
+        const volumeSliderContainer = document.querySelector('.volume-slider-container');
+        const volumeDown = document.getElementById('volume-down');
+        const volumeUp = document.getElementById('volume-up');
+        const playingStatus = document.getElementById('playing-status');
+        
+        let isPlaying = false;
+        let volume = 0.4; // Initial volume at 40%
+        
+        // Set initial volume
+        radioPlayer.volume = volume;
+        
+        // Hide playing status initially
+        playingStatus.style.display = 'none';
+        
+        // Function to update volume UI
+        function updateVolumeUI() {
+            const percentage = volume * 100;
+            volumeProgress.style.width = `${percentage}%`;
+            volumeHandle.style.left = `${percentage}%`;
+        }
+        
+        // Play/pause toggle
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                radioPlayer.pause();
+                playButton.src = 'https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144855/R%C3%A1dio/radiojardimbotaoplayer.png';
+                playingStatus.style.display = 'none';
+            } else {
+                radioPlayer.play().catch(e => {
+                    console.error('Error playing audio:', e);
+                    alert('Não foi possível reproduzir o áudio. Por favor, tente novamente.');
+                });
+                playButton.src = 'https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144854/R%C3%A1dio/radiojardimbotaostop.png';
+                playingStatus.style.display = 'block';
+            }
+            
+            isPlaying = !isPlaying;
+        });
+        
+        // Volume slider click and drag
+        let isDragging = false;
+        
+        volumeSliderContainer.addEventListener('mousedown', handleVolumeChange);
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                handleVolumeChange(e);
+            }
+        });
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        // Touch support for mobile
+        volumeSliderContainer.addEventListener('touchstart', handleVolumeTouch);
+        volumeSliderContainer.addEventListener('touchmove', handleVolumeTouch);
+        
+        function handleVolumeChange(e) {
+            isDragging = true;
+            const rect = volumeSliderContainer.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let percentage = x / rect.width;
+            
+            // Clamp between 0 and 1
+            percentage = Math.max(0, Math.min(1, percentage));
+            
+            volume = percentage;
+            radioPlayer.volume = volume;
+            updateVolumeUI();
+        }
+        
+        function handleVolumeTouch(e) {
+            e.preventDefault();
+            const rect = volumeSliderContainer.getBoundingClientRect();
+            const touch = e.touches[0];
+            let x = touch.clientX - rect.left;
+            let percentage = x / rect.width;
+            
+            // Clamp between 0 and 1
+            percentage = Math.max(0, Math.min(1, percentage));
+            
+            volume = percentage;
+            radioPlayer.volume = volume;
+            updateVolumeUI();
+        }
+        
+        // Volume down button
+        volumeDown.addEventListener('click', () => {
+            if (volume >= 0.1) {
+                volume -= 0.1;
+                radioPlayer.volume = volume;
+                updateVolumeUI();
+            }
+        });
+        
+        // Volume up button
+        volumeUp.addEventListener('click', () => {
+            if (volume <= 0.9) {
+                volume += 0.1;
+                radioPlayer.volume = volume;
+                updateVolumeUI();
+            }
+        });
+        
+        // Handle audio errors
+        radioPlayer.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            alert('Erro ao carregar a rádio. Por favor, verifique sua conexão e tente novamente.');
+            isPlaying = false;
+            playButton.src = 'https://res.cloudinary.com/dzfgirq6w/image/upload/v1742144855/R%C3%A1dio/radiojardimbotaoplayer.png';
+            playingStatus.style.display = 'none';
+        });
+        
+        // Initialize volume UI
+        updateVolumeUI();
+    </script>
+</body>
+</html>
